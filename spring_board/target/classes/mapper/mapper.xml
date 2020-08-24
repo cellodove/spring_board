@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="min.spring.board">
+
+<select id="getListCount" parameterType="int">
+select
+count(*) 
+from jboard
+</select>
+
+<select id="getBoardList" parameterType="BoardDTO" resultType="BoardDTO">
+ select * from (select rownum rnum, num, name, subject, content,attached_file, answer_num, answer_lev, answer_seq, read_count,write_date from (select * from jboard order by answer_num desc, answer_seq asc))
+
+</select>
+
+<insert id="boardInsert" parameterType="BoardDTO">
+<selectKey keyProperty="num" resultType="int" order="BEFORE">
+select max(num)+1 from jboard
+</selectKey>
+insert 
+into jboard (num,name,pass,subject,content,attached_file,answer_num,answer_lev,answer_seq,read_count,write_date) 
+values(#{num},#{name},#{pass},#{subject},#{content},#{attached_file},#{num},0,0,0,sysdate)
+</insert>
+
+
+
+
+
+
+
+
+
+
+
+
+</mapper>
